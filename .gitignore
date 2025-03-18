@@ -1,4 +1,4 @@
 /.ipynb_checkpoints
-coordinates.json
-weather_data.csv
 .cache.sqlite
+*.json
+*.csv
