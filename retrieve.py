@@ -1,9 +1,12 @@
 import json
 from datetime import datetime
 import matplotlib.pyplot as plt
-from meteostat import Point, Daily
+from meteostat import Point, Daily, Hourly
 from geopy.geocoders import Nominatim
 from pathlib import Path
+
+city = "Paris"
+country = "France"
 
 # Read json file
 def get_from_json(file):
@@ -47,21 +50,26 @@ def get_coordinates(city, country):
 
 def get_weather_data(lat, long):
   # Set time period
+  # Change another period here
   start = datetime(2024, 1, 1)
   end = datetime(2024, 12, 31)
 
-  # Create Point for Vancouver, BC
+  # Create Point for selected city
   city = Point(lat, long, 70)
 
-  # Get daily data for 2018
+  # Get daily data for certain year
   data = Daily(city, start, end)
   data = data.fetch()
 
+  # Save to CSV file
+  csv_file = "weather_data.csv"
+  data.to_csv(csv_file, index=True)  # Index=True to keep the date column
+
   # Plot line chart including average, minimum and maximum temperature
-  data.plot(y=['tavg', 'tmin', 'tmax'])
-  plt.show()
+  #data.plot(y=['tavg', 'tmin', 'tmax'])
+  #plt.show()
 
-  #print(data)
+  print(data.head())
 
-get_coordinates("Norrköping", "Sweden")
+get_coordinates(city, country)
 get_weather_data(coordinates['latitude'], coordinates['longitude'])
